@@ -23,6 +23,7 @@ public class Order extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     private int totalPrice;
