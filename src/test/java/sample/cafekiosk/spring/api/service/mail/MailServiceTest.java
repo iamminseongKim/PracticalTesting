@@ -4,10 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import sample.cafekiosk.spring.client.mail.MailSendClient;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistory;
@@ -23,7 +20,8 @@ import static org.mockito.Mockito.*;
 class MailServiceTest {
 
     // 일부는 실제 기능을 쓰고 싶고, 일부는 스터빙해서 가짜로 쓸려면 @Spy
-    @Spy
+    //@Spy
+    @Mock
     private MailSendClient mailSendClient;
 
     // 전체다 가짜로 쓰려면 @Mock
@@ -49,6 +47,30 @@ class MailServiceTest {
         doReturn(true)
                 .when(mailSendClient)
                 .sendEmail(anyString(), anyString(), anyString(), anyString());
+
+
+        // when
+        boolean result = mailService.sendMail("", "", "", "");
+
+        // then
+        assertThat(result).isTrue();
+
+        verify(mailSendHistoryRepository, times(1)).save(any(MailSendHistory.class));
+    }
+
+    @Test
+    @DisplayName("메일 전송 테스트 BDDMockito 사용해보기")
+    void sendMailBDD() {
+
+        //given
+
+        //Mockito
+//        Mockito.when(mailSendClient.sendEmail(anyString(), anyString(), anyString(), anyString()))
+//               .thenReturn(true);
+
+        //BDDMockito
+        BDDMockito.given(mailSendClient.sendEmail(anyString(), anyString(), anyString(), anyString()))
+                .willReturn(true);
 
 
         // when
