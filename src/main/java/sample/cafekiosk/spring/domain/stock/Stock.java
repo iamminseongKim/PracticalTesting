@@ -1,6 +1,5 @@
 package sample.cafekiosk.spring.domain.stock;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
